@@ -6,12 +6,29 @@ This is a temporary script file.
 """
 
 import streamlit as st
-from data import getData as gd
 import plotly.express as px
 import pandas as pd
 
-df=gd.shillerPE().get()
-df['Real GT10']=df.GT10-df.CPI
+def getData():
+        df=pd.read_excel('http://www.econ.yale.edu/~shiller/data/ie_data.xls',
+                         sheet_name='Data')
+        df.drop(df.index[0:7],inplace=True)
+        df.drop(['Unnamed: 5','Unnamed: 11','Unnamed: 13','Unnamed: 15','Unnamed: 16','Unnamed: 17',
+                'Unnamed: 18','Unnamed: 19','Unnamed: 20','Unnamed: 21'],axis=1,inplace=True)
+        df.columns=['Date','SPX','Div','Earnings','CPI','GT10','Real SPX','Real Div','Real SPX-Dirty','Real Earnings','CAPE','TR CAPE']
+        df.drop(df.index[-1],inplace=True)
+        cols=df.columns.drop('Date')
+        df[cols]=df[cols].apply(pd.to_numeric)
+        df=df.astype({'Date':'string'})
+        for k,v in df.iterrows():
+            if len(v['Date'])!=7:
+                df.loc[k,'Date']=v['Date']+'0'
+        df['Date']=pd.to_datetime(df['Date'],format='%Y.%m')
+        df.set_index('Date',inplace=True)
+        df['Real GT10']=df.GT10-df.CPI
+        return df
+
+df=getData()
 
 st.title('Shiller CAPE')
 chartType=st.selectbox('Select Chart Type',['Scatter','Line','Histogram'])
