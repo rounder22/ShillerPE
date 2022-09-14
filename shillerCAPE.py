@@ -26,7 +26,7 @@ def getData():
         df['Date']=pd.to_datetime(df['Date'],format='%Y.%m')
         df.set_index('Date',inplace=True)
         df['SPX m/m']=df.SPX.pct_change()*100
-        df['SPX y/y']=df.SPX.pct_chage(12)*100
+        df['SPX y/y']=df.SPX.pct_change(12)*100
         df['CPI y/y']=df.CPI.pct_change(12)*100
         df['Real GT10']=df.GT10-df['CPI y/y']
         return df
