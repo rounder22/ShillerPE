@@ -55,20 +55,23 @@ if chartType=='Scatter':
     ols=col1.checkbox('Add Linear Regression',value=True)
 
     if (colorBar==True) and (ols==True):
-        fig=px.scatter(df,x=xAxis,y=yAxis,color=df.index.year,
-                       labels={'color':'year'},
+        fig=px.scatter(df,x=xAxis,y=yAxis,
+                       color=df.index.year,
+                       hover_name=df.index.strftime('%Y-%m'),
                        trendline='ols'
                        )
     elif (colorBar==True) and (ols==False):
         fig=px.scatter(df,x=xAxis,y=yAxis,
                        color=df.index.year,
-                       labels={'color':'year'}
+                       hover_name=df.index.strftime('%Y-%m')
                        )
     elif (colorBar==False) and (ols==False):
-        fig=px.scatter(df,x=xAxis,y=yAxis
+        fig=px.scatter(df,x=xAxis,y=yAxis,
+                       hover_name=df.index.strftime('%Y-%m')
                        )
     elif (colorBar==False) and (ols==True):
         fig=px.scatter(df,x=xAxis,y=yAxis,
+                       hover_name=df.index.strftime('%Y-%m'),
                        trendline='ols'
                        )
 if chartType=='Line':
