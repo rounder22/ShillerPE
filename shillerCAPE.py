@@ -9,6 +9,8 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 
+st.set_page_config(page_title='Shiller CAPE Analysis')
+
 def getData():
         df=pd.read_excel('http://www.econ.yale.edu/~shiller/data/ie_data.xls',
                          sheet_name='Data')
